@@ -18,24 +18,64 @@ export const App = () => {
 
   let navigate = useNavigate();
 
-  const [webstate, setwebstate] = useState({})
+  const [web3, setweb3] = useState(null)
+
+  const [web3Provider, setweb3Provider] = useState(null)
+
+  const [contracts, setContracts] = useState({})
+
+  const [account, setAccount] = useState(null)
+
+  const [ipfs, setipfs] = useState(null)
 
   function importContracts() {
     var PetsArtifact = Pets;
-    webstate.contracts = {}
-    webstate.contracts.Pets = TruffleContract(PetsArtifact)
-    for (const k in webstate.contracts) {
-      webstate.contracts[k].setProvider(webstate.web3Provider)
-    }
+    setContracts({
+      Pets: TruffleContract(PetsArtifact)
+    })
   }
 
-  function checkUser() {
-    webstate.web3.eth.getAccounts(function(error, accounts) {
-      if (error) {
-          console.log(error)
+
+  async function requestAccounts() {
+    try {
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+    } catch (error) {
+      console.error("User denied account access")
+    }
+
+  }
+
+  useEffect(() => {
+    if (web3Provider != null) {
+      for (const k in contracts) {
+        contracts[k].setProvider(web3Provider)
       }
-      var account = accounts[0]
-      webstate.contracts.Pets.deployed().then((instance) => {
+    }
+  }, [contracts])
+  
+  useEffect(() => {
+    if (web3Provider != null) {
+      requestAccounts()
+      setweb3(new Web3(web3Provider));
+    }
+  }, [web3Provider])
+
+  useEffect(() => {
+    if (web3 != null) {
+      web3.eth.getAccounts((error, accounts) => {
+        if (error) {
+          console.log(error)
+        }
+        var account = accounts[0]
+        setAccount(account)
+      })
+    }
+  }, [web3])
+
+  useEffect(() => { 
+    if (contracts.hasOwnProperty("Pets") && account != null) {
+      console.log(account)
+      contracts.Pets.deployed().then((instance) => {
         let PetsInstance = instance
         return PetsInstance.checkUser({from: account})
       }).then((result) => {
@@ -45,83 +85,42 @@ export const App = () => {
         else{
           navigate('/login')
         }
-      })
-    })
-  }
+      }) 
+    }
+  }, [account])
+
+  useEffect(() => {
+    Init()
+    importContracts()
+  }, [])
+
 
   async function Init() {
     
     if (window.ethereum) {
-      webstate.web3Provider = window.ethereum
-      try {
-        await window.ethereum.request({ method: "eth_requestAccounts" });
-      } catch (error) {
-        console.error("User denied account access")
-      }
+      setweb3Provider(window.ethereum)
     }
     else if (window.web3) {
-      webstate.web3Provider = window.web3.currentProvider
+      setweb3Provider(window.web3.currentProvider)
     }
     else {
-      webstate.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
+      setweb3Provider(new Web3.providers.HttpProvider('http://localhost:7545'))
     }
-    webstate.web3 = new Web3(webstate.web3Provider);
-    console.log(webstate)
-    importContracts()
 
     const client = create('https://ipfs.infura.io:5001/api/v0')
-    webstate.ipfs = client
-    checkUser(webstate.contracts.Pets)
+    setipfs(client)
 
   }
-
-  useEffect(() => {
-    Init()
-  }, [])
 
 
   return (
     <>
     <Routes>
-      <Route exact path="/home" element={<Home  webstate={webstate}/>}/>
-      <Route exact path="/login" element={<Login  webstate={webstate}/>}/>
+      <Route exact path="/home" element={<Home ipfs={ipfs} contracts={contracts} account={account}/>}/>
+      <Route exact path="/login" element={<Login contracts={contracts} account={account}/>}/>
     </Routes>
     </>
 
   )
 }
-
-
-// class App extends React.Component {  
-  
-  
-
-
-
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       web3Provider: null,
-//       web3: null,
-//       contracts: {},
-//       ipfs: null
-//     }
-
-//     this.Init()
-//   }
-
-//   render() {
-//     return (
-//       <>
-        
-//         <Sidebar></Sidebar>
-//         <Routes>
-//           <Route exact path="/" element={<Home  webstate={this.state}/>}/>
-//           <Route exact path="/login" element={<Login  webstate={this.state}/>}/>
-//         </Routes>
-//       </>
-//     )
-//   }
-// }
-
 export default App;

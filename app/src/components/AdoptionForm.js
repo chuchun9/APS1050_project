@@ -12,7 +12,7 @@ const FormWrapper = styled.div`
 
 `
 
-export const AdoptionForm = ({webstate}) => {
+export const AdoptionForm = (props) => {
     const [validated, setValidated] = useState(false);
     const [img_url, setImgurl] = useState(null)
     const [loadfile, setLoad] = useState(false)
@@ -21,7 +21,7 @@ export const AdoptionForm = ({webstate}) => {
         event.preventDefault()
         setLoad(true)
         const file = event.target.files[0]
-        const added = await webstate.ipfs.add(file)
+        const added = await props.ipfs.add(file)
         const img_url = `https://ipfs.infura.io/ipfs/${added.path}`
         setImgurl(img_url)
     }
@@ -37,7 +37,6 @@ export const AdoptionForm = ({webstate}) => {
         event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false || img_url == null || loadfile) {
-            // event.preventDefault();
             event.stopPropagation();
             
         }
@@ -51,20 +50,13 @@ export const AdoptionForm = ({webstate}) => {
             let zip = form[6].value
             let full_address = petAddress + ";" + city + ";" + province + ";" + zip
 
-            webstate.web3.eth.getAccounts(function(error, accounts) {
-                if (error) {
-                    console.log(error)
-                }
-                var account = accounts[0]
-                console.log(account)
-                webstate.contracts.Pets.deployed().then((instance) => {
-                    let PetsInstance = instance
-                    return PetsInstance.addPet(petAge, petName, img_url, petBreed, full_address, {from: account})
-                }).then((result) => {
-                    window.location.reload();
-                }).catch((err) => {
-                    console.log(err)
-                })
+            props.contracts.Pets.deployed().then((instance) => {
+                let PetsInstance = instance
+                return PetsInstance.addPet(petAge, petName, img_url, petBreed, full_address, {from: props.account})
+            }).then((result) => {
+                window.location.reload();
+            }).catch((err) => {
+                console.log(err)
             })
 
         }

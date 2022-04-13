@@ -66,7 +66,7 @@ const Description = styled.div`
     font-size: 32px;
 `
 
-export const Login = ({webstate}) => {
+export const Login = (props) => {
     let navigate = useNavigate();
     const [validated, setValidated] = useState(false);
 
@@ -80,21 +80,13 @@ export const Login = ({webstate}) => {
         else {
             let email = form[0].value
             let username = form[1].value
-
-            webstate.web3.eth.getAccounts(function(error, accounts) {
-                if (error) {
-                    console.log(error)
-                }
-                var account = accounts[0]
-                console.log(account)
-                webstate.contracts.Pets.deployed().then((instance) => {
-                    let PetsInstance = instance
-                    return PetsInstance.registerUser(username, email, {from: account})
-                }).then((result) => {
-                    navigate("/home")
-                }).catch((err) => {
-                    console.log(err)
-                })
+            props.contracts.Pets.deployed().then((instance) => {
+                let PetsInstance = instance
+                return PetsInstance.registerUser(username, email, {from: props.account})
+            }).then((result) => {
+                navigate("/home")
+            }).catch((err) => {
+                console.log(err)
             })
         }
         setValidated(true);
@@ -102,6 +94,8 @@ export const Login = ({webstate}) => {
     }
 
     return (
+        <>
+        {props.account != null && props.contracts.hasOwnProperty('Pets') ? (
         <Background>
             <MessageBox>
                 <Message>
@@ -139,5 +133,8 @@ export const Login = ({webstate}) => {
                 </FormWrapper>
             </FormBox>
         </Background>
+        ) : null}
+        </>
+        
     )
 }

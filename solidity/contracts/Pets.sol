@@ -8,6 +8,7 @@ contract Pets {
         uint age;
         string breed;
         string location;
+        uint[] likes;
         address adopter;
     }
 
@@ -32,6 +33,12 @@ contract Pets {
         return user.created;
     }
 
+    function getUser() public view returns (User memory) {
+        User storage user = allusers[msg.sender];
+        User memory memo_user = User(user.id, user.username, user.email, user.account_number, user.liked, user.created);
+        return memo_user;
+    }
+
     function registerUser(string memory username, string memory email) public returns (User memory) {
         User storage user = allusers[msg.sender];
         user.username = username;
@@ -40,8 +47,10 @@ contract Pets {
         user.account_number = msg.sender;
         user.created = true;
         user_counter = user_counter + 1;
+        User memory memo_user = User(user.id, user.username, user.email, user.account_number, user.liked, user.created);
+        return memo_user;
 
-        return user;
+
     }
 
 
@@ -63,7 +72,7 @@ contract Pets {
         p.location = location;
         p.adopter = address(0);
         pet_counter = pet_counter + 1;
-        Pet memory ret = Pet(p.id, p.name, p.img_hash, p.age, p.breed, p.location, p.adopter);
+        Pet memory ret = Pet(p.id, p.name, p.img_hash, p.age, p.breed, p.location, p.likes, p.adopter);
         return ret;
     }
 
@@ -71,6 +80,41 @@ contract Pets {
         Pet storage p = allpets[id];
         p.adopter = msg.sender;
         return (p.id, p.adopter);
+    }
+
+    function likePet(uint petid) public returns (uint[] memory, uint[] memory) {
+        User storage u = allusers[msg.sender];
+        Pet storage p = allpets[petid];
+        u.liked.push(p.id);
+        p.likes.push(u.id);        
+        return (u.liked, p.likes);
+    }
+
+    function dislikePet(uint petid) public returns (uint[] memory, uint[] memory) {
+        User storage u = allusers[msg.sender];
+        Pet storage p = allpets[petid];
+        
+        uint delete_idx;
+
+        for (uint i = 0; i < u.liked.length; i++) {
+            if (u.liked[i] == petid) {
+                delete_idx = i;
+                break;
+            }
+        }
+        u.liked[delete_idx] = u.liked[u.liked.length - 1];
+        u.liked.pop();
+
+        for (uint i = 0; i < p.likes.length; i++) {
+            if (p.likes[i] == u.id) {
+                delete_idx = i;
+                break;
+            }
+        }
+        p.likes[delete_idx] = p.likes[p.likes.length - 1];
+        p.likes.pop();
+   
+        return (u.liked, p.likes);
     }
 
 }

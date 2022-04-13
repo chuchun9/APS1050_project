@@ -61,4 +61,33 @@ contract TestPets {
 
     }
 
+
+    function testLikeAndDislike() public {
+        uint age = 2;
+        string memory name = "Tebby";
+        string memory img_hash = "asdasndosandoias";
+        string memory breed = "Dog1";
+        string memory location = "Shanghai";
+        Pets.Pet memory ret = pets.addPet(age, name, img_hash, breed, location);
+
+        string memory username = "user1";
+        string memory email = "123@gmail.com";
+        Pets.User memory created_user = pets.registerUser(username, email);
+
+        (uint[] memory userliked, uint[] memory petlikes) = pets.likePet(ret.id);
+        
+        Assert.equal(userliked[0], ret.id, "petId should be the same");
+        Assert.equal(petlikes[0], created_user.id, "userId should be the same");
+
+
+        (uint[] memory newuserliked, uint[] memory newpetlikes) = pets.dislikePet(userliked[0]);
+
+        Assert.equal(newuserliked.length, 0, "userliked should be empty");
+        Assert.equal(newpetlikes.length, 0, "petlikes should be empty");
+
+
+
+
+    }
+
 }

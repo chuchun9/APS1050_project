@@ -37,33 +37,33 @@ const CloseModalButton = styled(MdClose)`
     z-index: 10;
 `;
 
-export const Modal = ({webstate, showModal, setShowModal}) => {
+export const Modal = (props) => {
     const modalRef = useRef();
 
     const animation = useSpring({
         config: {
             duration: 250
         },
-        opacity: showModal ? 1 : 0,
-        transform: showModal ? `translateY(0%)` : `translateY(-100%)`
+        opacity: props.showModal ? 1 : 0,
+        transform: props.showModal ? `translateY(0%)` : `translateY(-100%)`
     });
 
     const closeModal = e => {
         if (modalRef.current === e.target) {
-            setShowModal(false);
+            props.setShowModal(false);
         }
     };
 
     return (
         <>
-        {showModal ? (
+        {props.showModal ? (
             <Background onClick={closeModal} ref={modalRef}>
             <animated.div style={animation}>
-                <ModalWrapper showModal={showModal}>
-                    <AdoptionForm webstate={webstate}></AdoptionForm>
+                <ModalWrapper showModal={props.showModal}>
+                    <AdoptionForm ipfs={props.ipfs} contracts={props.contracts} account={props.account}></AdoptionForm>
                     <CloseModalButton
                         aria-label='Close modal'
-                        onClick={() => setShowModal(prev => !prev)}
+                        onClick={() => props.setShowModal(prev => !prev)}
                     />
                 </ModalWrapper>
             </animated.div>

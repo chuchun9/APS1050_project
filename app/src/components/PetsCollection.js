@@ -3,12 +3,12 @@ import data from '../data/pets.json'
 import Row from 'react-bootstrap/Row';
 import { Pet } from './Pet';
 
-export const PetsCollection = ({webstate, showModal}) => {
+
+export const PetsCollection = (props) => {
     const columnsPerRow = 4;
     const [PetsArr, setPets] = useState([])
-
     useEffect(() => {
-        webstate.contracts.Pets.deployed().then((instance) => {
+        props.contracts.Pets.deployed().then((instance) => {
             var PetInstance = instance;
             return PetInstance.getPets();
         }).then((result) => {
@@ -19,18 +19,19 @@ export const PetsCollection = ({webstate, showModal}) => {
     const getColumnsForRow=() => {
         let items = PetsArr.map((p) => {
             return (
-                <Pet pet={p}></Pet>
+                <Pet contracts={props.contracts} account={props.account} pet={p} liked={props.user.liked.has(p.id)}> </Pet>
             )
         })
         return items;
     };
-    console.log(PetsArr)
 
     return (
         <div>
-            {!showModal?<Row xs={1} md={columnsPerRow}>
+            {!props.showModal || Object.keys(props.user).length == 0?
+            <Row xs={1} md={columnsPerRow}>
                 {getColumnsForRow()}
-            </Row>: null
+            </Row>
+            : null
             }
         </div>  
     )
