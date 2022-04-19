@@ -120,7 +120,7 @@ export const App = () => {
     <Routes>
       <Route exact path="/" element={<Home ipfs={ipfs} contracts={contracts} account={account}/>}/>
       <Route exact path="/login" element={<Login contracts={contracts} account={account}/>}/>
-      <Route exact path="/history" element={<History contracts={contracts} account={account}/>}/>
+      <Route exact path="/history" element={<History ipfs={ipfs} contracts={contracts} account={account}/>}/>
     </Routes>
     </>
 
