@@ -4,6 +4,7 @@ import { Modal } from './Modal';
 import { PetsCollection } from './PetsCollection';
 import styled from 'styled-components'
 import { Header } from './Header';
+import { DonationHistory } from './DonationHistory';
 import {
   BrowserRouter as Router,
   Routes,
@@ -25,7 +26,7 @@ const Background = styled.div`
     position: fixed;
 `;
 
-export const Home = (props) => {
+export const History = (props) => {
   let navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState({})
@@ -35,6 +36,7 @@ export const Home = (props) => {
       let PetsInstance = instance
       return PetsInstance.getUser(props.account, {from: props.account})
     }).then((result) => {
+      console.log(result)
       var user_liked = new Set();
       result.liked.map((k) => {
         user_liked.add(k)
@@ -56,13 +58,10 @@ export const Home = (props) => {
     <>
     {Object.keys(user).length != 0 ? (
       <Background>
-          {/* <h1 className="text-center">Pete's Pet Shop  <Button variant="outline-primary" onClick={ToggleModal}>{ModalText}</Button></h1> */}
-          {/* <Title>Pete's Pet Shop <Button variant="outline-primary" onClick={ToggleModal}>{ModalText}</Button></Title> */}
-          <Header account={props.account} contracts={props.contracts} setShowModal={setShowModal} showModal={showModal}></Header>
-          <Modal ipfs={props.ipfs} account={props.account} contracts={props.contracts} showModal={showModal} setShowModal={setShowModal}></Modal>
-          {/* <hr/> */}
-          <br/>
-          <PetsCollection contracts={props.contracts} account={props.account} user={user} setUser={setUser} showModal={showModal}/>
+            <Header account={props.account} contracts={props.contracts} setShowModal={setShowModal} showModal={showModal}></Header>
+            <Modal ipfs={props.ipfs} account={props.account} contracts={props.contracts} showModal={showModal} setShowModal={setShowModal}></Modal>
+            <br/>
+            <DonationHistory account={props.account} contracts={props.contracts}></DonationHistory>
       </Background>
     ) : null}
     </>

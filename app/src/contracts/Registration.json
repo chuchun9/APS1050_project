@@ -7,22 +7,22 @@
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [],
-  "sourceMap": "24:27:1:-:0;;;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "24:27:1:-:0;;;;;",
+  "sourceMap": "24:27:4:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "24:27:4:-:0;;;;;",
   "source": "pragma solidity ^0.8.0;\ncontract Registration {\n\n\n}",
   "sourcePath": "/Users/chuntungchu/Documents/ece-meng/aps1050/APS1050_project/solidity/contracts/User.sol",
   "ast": {
     "absolutePath": "project:/contracts/User.sol",
     "exportedSymbols": {
       "Registration": [
-        292
+        736
       ]
     },
-    "id": 293,
+    "id": 737,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 291,
+        "id": 735,
         "literals": [
           "solidity",
           "^",
@@ -30,7 +30,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:1"
+        "src": "0:23:4"
       },
       {
         "abstract": false,
@@ -39,33 +39,33 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 292,
+        "id": 736,
         "linearizedBaseContracts": [
-          292
+          736
         ],
         "name": "Registration",
-        "nameLocation": "33:12:1",
+        "nameLocation": "33:12:4",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 293,
-        "src": "24:27:1",
+        "scope": 737,
+        "src": "24:27:4",
         "usedErrors": []
       }
     ],
-    "src": "0:51:1"
+    "src": "0:51:4"
   },
   "legacyAST": {
     "absolutePath": "project:/contracts/User.sol",
     "exportedSymbols": {
       "Registration": [
-        292
+        736
       ]
     },
-    "id": 293,
+    "id": 737,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 291,
+        "id": 735,
         "literals": [
           "solidity",
           "^",
@@ -73,7 +73,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:1"
+        "src": "0:23:4"
       },
       {
         "abstract": false,
@@ -82,20 +82,20 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 292,
+        "id": 736,
         "linearizedBaseContracts": [
-          292
+          736
         ],
         "name": "Registration",
-        "nameLocation": "33:12:1",
+        "nameLocation": "33:12:4",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 293,
-        "src": "24:27:1",
+        "scope": 737,
+        "src": "24:27:4",
         "usedErrors": []
       }
     ],
-    "src": "0:51:1"
+    "src": "0:51:4"
   },
   "compiler": {
     "name": "solc",
@@ -103,7 +103,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-04-13T00:44:32.420Z",
+  "updatedAt": "2022-04-19T00:52:54.509Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

@@ -1,5 +1,6 @@
-var Pets = artifacts.require("Pets");
+var Pets = artifacts.require("Pets")
 
 module.exports = function(deployer) {
-  deployer.deploy(Pets);
+  deployer.deploy(Pets)
+  
 };

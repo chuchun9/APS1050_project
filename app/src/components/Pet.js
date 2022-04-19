@@ -59,7 +59,7 @@ export const Pet = (props) => {
 
   return (
     <Col>
-       <Card id={props.pet.id} style={{ "box-shadow": "0 5px 16px rgba(0, 0, 0, 0.2)"}}>
+       <Card id={props.pet.id} style={{ "box-shadow": "0 5px 16px rgba(0, 0, 0, 0.2)", "margin-left": "10px"}}>
         <Card.Img variant="top" src={props.pet.img_hash} />
         <Card.Body>
           <Card.Title>{props.pet.name}</Card.Title>

@@ -33,8 +33,8 @@ contract Pets {
         return user.created;
     }
 
-    function getUser() public view returns (User memory) {
-        User storage user = allusers[msg.sender];
+    function getUser(address useraddress) external view returns (User memory) {
+        User storage user = allusers[useraddress];
         User memory memo_user = User(user.id, user.username, user.email, user.account_number, user.liked, user.created);
         return memo_user;
     }

@@ -84,7 +84,7 @@ export const Login = (props) => {
                 let PetsInstance = instance
                 return PetsInstance.registerUser(username, email, {from: props.account})
             }).then((result) => {
-                navigate("/home")
+                navigate("/")
             }).catch((err) => {
                 console.log(err)
             })

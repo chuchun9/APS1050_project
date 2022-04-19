@@ -3,9 +3,11 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Web3 from 'web3';
 import TruffleContract from 'truffle-contract'  
 import Pets from './contracts/Pets.json'
+import Donation from './contracts/Donation.json'
 import { create } from 'ipfs-http-client'
 import { Sidebar } from './components/Sidebar';
 import { Login } from './components/Login';
+import { History } from './components/History';
 import {
   BrowserRouter as Router,
   Routes,
@@ -30,9 +32,12 @@ export const App = () => {
 
   function importContracts() {
     var PetsArtifact = Pets;
+    var DonationArtifact = Donation;
     setContracts({
-      Pets: TruffleContract(PetsArtifact)
+      Pets: TruffleContract(PetsArtifact),
+      Donation: TruffleContract(DonationArtifact)
     })
+  
   }
 
 
@@ -79,10 +84,7 @@ export const App = () => {
         let PetsInstance = instance
         return PetsInstance.checkUser({from: account})
       }).then((result) => {
-        if (result) {
-          navigate('/home')
-        }
-        else{
+        if (!result) {
           navigate('/login')
         }
       }) 
@@ -116,8 +118,9 @@ export const App = () => {
   return (
     <>
     <Routes>
-      <Route exact path="/home" element={<Home ipfs={ipfs} contracts={contracts} account={account}/>}/>
+      <Route exact path="/" element={<Home ipfs={ipfs} contracts={contracts} account={account}/>}/>
       <Route exact path="/login" element={<Login contracts={contracts} account={account}/>}/>
+      <Route exact path="/history" element={<History contracts={contracts} account={account}/>}/>
     </Routes>
     </>
 
