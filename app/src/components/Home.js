@@ -40,6 +40,7 @@ export const Home = (props) => {
         user_liked.add(k)
       })
       result.liked = user_liked
+      console.log(result)
       setUser(result)
     })
   }

@@ -5,7 +5,7 @@ contract Pets {
         uint id;
         string name;
         string img_hash;
-        uint age;
+        int age;
         string breed;
         string location;
         uint[] likes;
@@ -62,7 +62,31 @@ contract Pets {
         return ret;
     }
 
-    function addPet(uint age, string memory name, string memory img_hash, string memory breed, string memory location) public returns (Pet memory) {
+    function compareStrings(string memory a, string memory b) public view returns (bool) {
+        return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
+    }
+
+    function getSelectedPets(string memory breed, int age) public view returns (Pet[] memory) {
+        uint num = 0;
+        for (uint i = 0; i < pet_counter; i++) {
+            Pet memory cur_pet = allpets[i];
+            if ((bytes(breed).length == 0 || compareStrings(cur_pet.breed, breed)) && (age == -1 || cur_pet.age == age)) {
+                num = num + 1;
+            }
+        }
+        Pet[] memory ret = new Pet[](num);
+        uint cur_idx = 0;
+        for (uint i = 0; i < pet_counter; i++) {
+            Pet memory cur_pet = allpets[i];
+            if ((bytes(breed).length == 0 || compareStrings(cur_pet.breed, breed)) && (age == -1 || cur_pet.age == age)) {
+                ret[cur_idx] = cur_pet;
+                cur_idx = cur_idx + 1;
+            }
+        }
+        return ret;
+    }
+
+    function addPet(int age, string memory name, string memory img_hash, string memory breed, string memory location) public returns (Pet memory) {
         Pet storage p = allpets[pet_counter];
         p.id = pet_counter;
         p.name = name;
@@ -82,15 +106,19 @@ contract Pets {
         return (p.id, p.adopter);
     }
 
-    function likePet(uint petid) public returns (uint[] memory, uint[] memory) {
+    function likePet(uint petid) public returns (User memory, Pet memory) {
         User storage u = allusers[msg.sender];
         Pet storage p = allpets[petid];
         u.liked.push(p.id);
         p.likes.push(u.id);        
-        return (u.liked, p.likes);
+
+        User memory ret_u = User(u.id, u.username, u.email, u.account_number, u.liked, u.created);
+        Pet memory ret_p = Pet(p.id, p.name, p.img_hash, p.age, p.breed, p.location, p.likes, p.adopter);
+
+        return (ret_u, ret_p);
     }
 
-    function dislikePet(uint petid) public returns (uint[] memory, uint[] memory) {
+    function dislikePet(uint petid) public returns (User memory, Pet memory) {
         User storage u = allusers[msg.sender];
         Pet storage p = allpets[petid];
         
@@ -113,8 +141,13 @@ contract Pets {
         }
         p.likes[delete_idx] = p.likes[p.likes.length - 1];
         p.likes.pop();
-   
-        return (u.liked, p.likes);
+
+
+
+        User memory ret_u = User(u.id, u.username, u.email, u.account_number, u.liked, u.created);
+        Pet memory ret_p = Pet(p.id, p.name, p.img_hash, p.age, p.breed, p.location, p.likes, p.adopter);
+
+        return (ret_u, ret_p);
     }
 
 }
