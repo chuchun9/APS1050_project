@@ -21,23 +21,11 @@ contract TestPets {
     }
 
     function testGetPets() public {
-        // uint age = 2;
-        // string memory name = "Tebby";
-        // string memory img_hash = "asdasndosandoias";
-        // string memory breed = "Dog1";
-        // string memory location = "Shanghai";
-        // pets.addPet(age, name, img_hash, breed, location);
         Pets.Pet[] memory ret = pets.getPets();
         Assert.equal(ret[0].name, "Tebby", "The name should be the same as Tebby");
     }
 
     function testAdopt() public {
-        // uint age = 2;
-        // string memory name = "Tebby";
-        // string memory img_hash = "asdasndosandoias";
-        // string memory breed = "Dog1";
-        // string memory location = "Shanghai";
-        // pets.addPet(age, name, img_hash, breed, location);
         Pets.Pet[] memory ret = pets.getPets();
         Assert.equal(ret[0].adopter, address(0), "The adopter address should be empty");
 
@@ -64,16 +52,16 @@ contract TestPets {
     function testLikeAndDislike() public {
         Pets.Pet[] memory ret = pets.getPets();
         Pets.User memory created_user = pets.getUser(address(this));
-        (uint[] memory userliked, uint[] memory petlikes) = pets.likePet(ret[0].id);
+        (Pets.User memory user, Pets.Pet memory pet) = pets.likePet(ret[0].id);
         
-        Assert.equal(userliked[0], ret[0].id, "petId should be the same");
-        Assert.equal(petlikes[0], created_user.id, "userId should be the same");
+        Assert.equal(user.liked[0], ret[0].id, "petId should be the same");
+        Assert.equal(pet.likes[0], created_user.id, "userId should be the same");
 
 
-        (uint[] memory newuserliked, uint[] memory newpetlikes) = pets.dislikePet(userliked[0]);
+        (Pets.User memory newuser, Pets.Pet memory newpet) = pets.dislikePet(user.liked[0]);
 
-        Assert.equal(newuserliked.length, 0, "userliked should be empty");
-        Assert.equal(newpetlikes.length, 0, "petlikes should be empty");
+        Assert.equal(newuser.liked.length, 0, "userliked should be empty");
+        Assert.equal(newpet.likes.length, 0, "petlikes should be empty");
 
     }
 

@@ -70,6 +70,21 @@ export const Login = (props) => {
     let navigate = useNavigate();
     const [validated, setValidated] = useState(false);
 
+    // useEffect(() => { 
+    //     if (contracts.hasOwnProperty("Pets") && account != null) {
+    //       console.log(props.account)
+    //       contracts.Pets.deployed().then((instance) => {
+    //         let PetsInstance = instance
+    //         return PetsInstance.checkUser({from: props.account})
+    //       }).then((result) => {
+    //         if (!result) {
+    //           navigate('/login')
+    //         }
+    //       }) 
+    //     }
+    // }, [props.account])
+
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const form = event.currentTarget;

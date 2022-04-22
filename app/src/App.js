@@ -8,6 +8,8 @@ import { create } from 'ipfs-http-client'
 import { Sidebar } from './components/Sidebar';
 import { Login } from './components/Login';
 import { History } from './components/History';
+import { useLocation } from 'react-router-dom'
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -18,7 +20,9 @@ import {
 
 export const App = () => {
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const location = useLocation();
 
   const [web3, setweb3] = useState(null)
 
@@ -78,20 +82,31 @@ export const App = () => {
   }, [web3])
 
   useEffect(() => { 
+    console.log("rerender")
     if (contracts.hasOwnProperty("Pets") && account != null) {
       console.log(account)
       contracts.Pets.deployed().then((instance) => {
         let PetsInstance = instance
         return PetsInstance.checkUser({from: account})
       }).then((result) => {
+        // console.log(location.pathname);
         if (!result) {
           navigate('/login')
+        }
+        else {
+          if (location.pathname == '/login') {
+            navigate('/')
+          }
+          else {
+            navigate(location.pathname)
+          }   
         }
       }) 
     }
   }, [account])
 
   useEffect(() => {
+    // console.log("rerender!")
     Init()
     importContracts()
   }, [])

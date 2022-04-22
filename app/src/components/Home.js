@@ -56,7 +56,7 @@ export const Home = (props) => {
   return (
     <>
     {Object.keys(user).length != 0 ? (
-      <Background>
+      <Background style={{"overflow-y":"auto"}}>
           {/* <h1 className="text-center">Pete's Pet Shop  <Button variant="outline-primary" onClick={ToggleModal}>{ModalText}</Button></h1> */}
           {/* <Title>Pete's Pet Shop <Button variant="outline-primary" onClick={ToggleModal}>{ModalText}</Button></Title> */}
           <Header account={props.account} contracts={props.contracts} setShowModal={setShowModal} showModal={showModal}></Header>

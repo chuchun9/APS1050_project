@@ -11,7 +11,6 @@ import InputGroup from 'react-bootstrap/InputGroup'
 const FilterBox = styled.div`
     width: 60%;
     min-height: 60px;
-    margin-left: 10px;
     margin-bottom: 10px;
     background: #fff;
     box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);

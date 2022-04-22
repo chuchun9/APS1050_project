@@ -57,7 +57,7 @@ export const History = (props) => {
   return (
     <>
     {Object.keys(user).length != 0 ? (
-      <Background>
+      <Background style={{"overflow-y":"auto"}}>
             <Header account={props.account} contracts={props.contracts} setShowModal={setShowModal} showModal={showModal}></Header>
             <Modal ipfs={props.ipfs} account={props.account} contracts={props.contracts} showModal={showModal} setShowModal={setShowModal}></Modal>
             <br/>

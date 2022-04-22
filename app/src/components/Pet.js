@@ -123,8 +123,8 @@ export const Pet = ({user, contracts, account, PetsArr, setPets, setUser, idx}) 
 
   return (
     <Col>
-       <Card id={PetsArr[idx].id} style={{ "boxShadow": "0 5px 16px rgba(0, 0, 0, 0.2)", "marginLeft": "10px"}}>
-        <Card.Img variant="top" src={PetsArr[idx].img_hash} />
+       <Card id={PetsArr[idx].id} style={{ "boxShadow": "0 5px 16px rgba(0, 0, 0, 0.2)", "marginBottom": "10px"}}>
+        <Card.Img variant="top" src={PetsArr[idx].img_hash}/>
         <Card.Body>
           <Card.Title>{PetsArr[idx].name}</Card.Title>
           <Card.Title>
