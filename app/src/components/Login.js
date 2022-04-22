@@ -42,16 +42,16 @@ const FormBox = styled.div`
 `
 
 const FormWrapper = styled.div`
-    top: 25%;
-    left: 15%;
-    width: 50%;
-    height: 50%;
+    top: 20%;
+    left: 10%;
+    width: 300px;
+    height: 400px;
     padding-top: 15px;
     padding-left: 15px;
     padding-right: 15px;
-    position: relative;
     box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
     background: white;
+    position: relative;
     border-radius: 25px;
 
 `
@@ -69,21 +69,6 @@ const Description = styled.div`
 export const Login = (props) => {
     let navigate = useNavigate();
     const [validated, setValidated] = useState(false);
-
-    // useEffect(() => { 
-    //     if (contracts.hasOwnProperty("Pets") && account != null) {
-    //       console.log(props.account)
-    //       contracts.Pets.deployed().then((instance) => {
-    //         let PetsInstance = instance
-    //         return PetsInstance.checkUser({from: props.account})
-    //       }).then((result) => {
-    //         if (!result) {
-    //           navigate('/login')
-    //         }
-    //       }) 
-    //     }
-    // }, [props.account])
-
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -111,7 +96,7 @@ export const Login = (props) => {
     return (
         <>
         {props.account != null && props.contracts.hasOwnProperty('Pets') ? (
-        <Background>
+        <Background style={{"overflow-y":"auto"}}>
             <MessageBox>
                 <Message>
                     <Title>Pete's PetShop</Title>
@@ -119,7 +104,7 @@ export const Login = (props) => {
                 </Message>
             </MessageBox>
             <FormBox>
-                <FormWrapper>
+                <FormWrapper style={{"overflow-y":"auto"}}>
 
                 
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
